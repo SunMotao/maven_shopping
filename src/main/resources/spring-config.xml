@@ -99,20 +99,20 @@
     <mvc:resources mapping="/staticPages/**" location="/page/"/>
 
     <!--配置拦截器-->
-    <!--<mvc:interceptors>-->
-        <!--&lt;!&ndash;多个拦截器 顺序执行&ndash;&gt;-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/customer/*"/>-->
-            <!--<mvc:exclude-mapping path="/**/*login*"></mvc:exclude-mapping> &lt;!&ndash;/**/*login或reg*&ndash;&gt;-->
-            <!--<mvc:exclude-mapping path="/**/*reg*"></mvc:exclude-mapping>-->
-            <!--<bean class="com.sxt.filter.SessionHandlerIntercepter"></bean>-->
-        <!--</mvc:interceptor>-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/Admin/*"/>-->
-            <!--<mvc:exclude-mapping path="/**/*login*"></mvc:exclude-mapping>-->
-            <!--<bean class="com.sxt.filter.AdminSessionHandlerIntercepter"></bean>-->
-        <!--</mvc:interceptor>-->
-    <!--</mvc:interceptors>-->
+    <mvc:interceptors>
+        <!--多个拦截器 顺序执行-->
+        <mvc:interceptor>
+            <mvc:mapping path="/customer/*"/>
+            <mvc:exclude-mapping path="/**/*login*"></mvc:exclude-mapping> <!--/**/*login或reg*-->
+            <mvc:exclude-mapping path="/**/*reg*"></mvc:exclude-mapping>
+            <bean class="com.sxt.filter.SessionHandlerIntercepter"></bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/Admin/*"/>
+            <mvc:exclude-mapping path="/**/*login*"></mvc:exclude-mapping>
+            <bean class="com.sxt.filter.AdminSessionHandlerIntercepter"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 
 </beans>
