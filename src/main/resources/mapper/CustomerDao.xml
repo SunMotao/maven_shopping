@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxt.dao.CustomerDao">
+    <resultMap id="customerMap" type="Customer">
+        <id column="id" property="id"></id>
+        <result column="CUSTOMER_NAME" property="customerName"></result>
+        <result column="CUSTOMER_PASSWORD" property="customerPassword"></result>
+        <result column="CUSTOMER_EMAIL" property="customerEmail"></result>
+        <result column="CUSTOMER_PHONE" property="customerPhone"></result>
+        <result column="CUSTOMER_MONEY" property="customerMoney"></result>
+        <result column="CUSTOMER_IS_NORMAL" property="customerIsNormal"></result>
+        <result column="CUSTOMER_CREATE_TIME" property="customerCreateTime"></result>
+        <result column="CUSTOMER_MODIFIED_TIME" property="customerModifiedTime"></result>
+
+        <!--<collection property="orderList" ofType="OrderList" column="id" select="com.sxt.dao.OrderListMapper.queryOrderListByCid" fetchType="lazy"></collection>-->
+    </resultMap>
+
+    <sql id="queryCustomer">SELECT * from customer</sql>
+
+    <select id="queryCustomerByName" parameterType="Customer" resultMap="customerMap">
+        <include refid="queryCustomer" ></include>
+        <where>
+            <choose>
+                <when test="customerName!=null and customerPassword!=null">
+                    AND  CUSTOMER_NAME=#{customerName} AND
+                    CUSTOMER_PASSWORD=#{customerPassword}
+                </when>
+                <otherwise>
+                    AND 1=2
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="queryAllCustomer" resultMap="customerMap" >
+        SELECT * FROM customer
+    </select>
+
+    <insert id="addCustomer" parameterType="Customer">
+        <selectKey resultType="java.lang.Integer" order="BEFORE" keyProperty="id">
+            SELECT SXT.SHOPPING_SEQ.nextval FROM dual
+        </selectKey>
+            INSERT INTO SXT.CUSTOMER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                ID,
+            </if>
+            <if test="customerName!=null">
+                CUSTOMER_NAME,
+            </if>
+            <if test="customerPassword!=null">
+                CUSTOMER_PASSWORD,
+            </if>
+            <if test="customerEmail!=null">
+                CUSTOMER_EMAIL,
+            </if>
+            <if test="customerPhone!=null">
+                CUSTOMER_PHONE,
+            </if>
+            <if test="customerMoney!=null">
+                CUSTOMER_MONEY,
+            </if>
+            <if test="customerIsNormal!=null">
+                CUSTOMER_IS_NORMAL,
+            </if>
+            <if test="customerCreateTime!=null">
+                CUSTOMER_CREATE_TIME,
+            </if>
+            <if test="customerModifiedTime!=null">
+                CUSTOMER_MODIFIED_TIME
+            </if>
+
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="customerName!=null">
+                #{customerName},
+            </if>
+            <if test="customerPassword!=null">
+                #{customerPassword},
+            </if>
+            <if test="customerEmail!=null">
+                #{customerEmail},
+            </if>
+            <if test="customerPhone!=null">
+                #{customerPhone},
+            </if>
+            <if test="customerMoney!=null">
+                #{customerMoney},
+            </if>
+            <if test="customerIsNormal!=null">
+                #{customerIsNormal},
+            </if>
+            <if test="customerCreateTime!=null">
+                #{customerCreateTime},
+            </if>
+            <if test="customerModifiedTime!=null">
+                #{customerModifiedTime}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateCustomer" parameterType="Customer">
+        UPDATE customer
+        <set>
+            <if test="customerMoney!=null">
+                CUSTOMER_MONEY=#{customerMoney}
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id!=null">
+                    AND id=#{id}
+                </when>
+                <otherwise>
+                    AND 1=2
+                </otherwise>
+            </choose>
+        </where>
+    </update>
+
+    <delete id="deleteCustomer" parameterType="Customer">
+        DELETE FROM SXT.CUSTOMER WHERE id=#{id}
+    </delete>
+
+    <select id="queryById" parameterType="int" resultMap="customerMap">
+        SELECT * FROM customer WHERE id=#{id}
+    </select>
+
+    <select id="queryCustomerListsById" parameterType="List" resultMap="customerMap">
+      SELECT * FROM customer
+      <where>
+          <choose>
+              <when test="list!=null and list.size>0">
+                  <foreach collection="list" open="id in (" item="customer" close=")" separator=",">
+                      #{customer.id}
+                  </foreach>
+              </when>
+              <otherwise>
+                  AND 1=2
+              </otherwise>
+          </choose>
+      </where>
+    </select>
+
+</mapper>

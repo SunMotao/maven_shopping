@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxt.dao.OrderItemMapper">
+    <resultMap id="orderItemMap" type="OrderItem">
+        <id property="id" column="id"></id>
+        <result property="orderListId" column="ORDER_LIST_ID"></result>
+        <result property="productId" column="PRODUCT_ID"></result>
+        <result property="productNumber" column="PRODUCT_NUMBER"></result>
+        <result property="itemCreateTime" column="ITEM_CREATE_TIME"></result>
+        <result property="itemModifiedTime" column="ITEM_MODIFIED_TIME"></result>
+    </resultMap>
+
+    <select id="queryOrderItemByOrderList" parameterType="OrderList" resultMap="orderItemMap">
+        SELECT * FROM order_item WHERE ORDER_LIST_ID =#{id}
+    </select>
+</mapper>

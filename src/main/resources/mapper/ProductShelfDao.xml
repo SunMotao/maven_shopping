@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxt.dao.ProductShelfMapper">
+        <resultMap id="productShelfMap" type="ProductShelf">
+            <id column="id" property="id"></id>
+            <result column="PRODUCT_ID" property="productId"></result>
+            <result column="PRODUCT_SHELF_STATE" property="productShelfState"></result>
+            <result column="PRODUCT_CREATE_TIME" property="productCreateTime"></result>
+            <result column="PRODUCT_MODIFIED_TIME" property="productModifiedTime"></result>
+        </resultMap>
+    <select id="queryByPid" parameterType="int" resultMap="productShelfMap">
+        SELECT * FROM product_shelf WHERE product_id=#{value}
+    </select>
+</mapper>

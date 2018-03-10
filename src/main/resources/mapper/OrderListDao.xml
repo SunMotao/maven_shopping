@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxt.dao.OrderListMapper">
+        <resultMap id="orderListMap" type="OrderList">
+            <id property="id" column="id"></id>
+            <result property="customerId" column="CUSTOMER_ID"></result>
+            <result property="totalMoney" column="TOTAL_MONEY"></result>
+            <result property="addressId" column="ADDRESS_ID"></result>
+            <result property="orderIsPay" column="ORDER_IS_PAY"></result>
+            <result property="orderIsTransport" column="ORDER_IS_TRANSPORT"></result>
+            <result property="orderIsDelete" column="ORDER_IS_DELETED"></result>
+            <result property="orderCreateTime" column="ORDER_CREATE_TIME"></result>
+            <result property="orderModifiedTime" column="ORDER_MODIFIED_TIME"></result>
+            <collection property="orderItemList" column="{id=id}" ofType="OrderItem" select="com.sxt.dao.OrderItemMapper.queryOrderItemByOrderList"></collection>
+        </resultMap>
+
+    <select id="queryOrderListByCid" parameterType="int" resultMap="orderListMap">
+        SELECT * FROM order_list WHERE CUSTOMER_ID=#{value}
+    </select>
+
+</mapper>
